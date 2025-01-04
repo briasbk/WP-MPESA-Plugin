@@ -60,55 +60,6 @@ Send a POST request to the callback URL with a sample payload:
   }
 }
 ```
-
-#### Verify:
-
-- The WooCommerce order matching the `MerchantRequestID` is updated as:
-  - **Completed** if `ResultCode` is `0`.
-  - **Failed** if `ResultCode` is non-zero.
-- Logs for debugging are generated in the WordPress error log.
-
-### 5. Security Recommendations
-
-- Restrict access to the callback endpoint using server-level configurations or Safaricom IP whitelisting.
-- Validate incoming requests using Safaricom’s headers or tokens (if available).
-- Keep your M-Pesa credentials secure.
-
-### 6. Logging
-
-- Logs are stored in the server’s PHP error log. Use these logs to debug callback issues.
-- Example log location: `/var/log/apache2/error.log` or `/wp-content/debug.log` (if `WP_DEBUG` is enabled).
-
-## Callback Script Overview
-
-The callback script processes the following:
-
-1. **Success Case:**
-   - Updates the WooCommerce order status to `Completed`.
-   - Logs the payment details (amount, phone number, receipt number, transaction date).
-
-2. **Failure Case:**
-   - Updates the WooCommerce order status to `Failed`.
-   - Logs the failure reason.
-
-## Example STK Push API Request
-
-```json
-{
-  "BusinessShortCode": "174379",
-  "Password": "Base64EncodedPassword",
-  "Timestamp": "20250101120000",
-  "TransactionType": "CustomerPayBillOnline",
-  "Amount": "100",
-  "PartyA": "254712345678",
-  "PartyB": "174379",
-  "PhoneNumber": "254712345678",
-  "CallBackURL": "https://yourwebsite.com/mpesa-callback.php",
-  "AccountReference": "Order12345",
-  "TransactionDesc": "Payment for Order #12345"
-}
-```
-
 ## Troubleshooting
 
 - **Callback Not Triggered:**
